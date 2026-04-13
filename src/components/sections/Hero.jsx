@@ -180,7 +180,7 @@ export default function Hero({ scrollToSection }) {
                             className="animate-glow"
                         >
                             <img
-                                src="/assets/alif.jpg"
+                                src="./assets/alif.jpg"
                                 alt="Didar"
                                 style={{
                                     width: '100%',
