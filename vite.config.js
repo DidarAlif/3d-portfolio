@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-export default defineConfig({
-  base: '/3d-portfolio/',
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/3d-portfolio/' : '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -13,4 +13,4 @@ export default defineConfig({
       '/api': 'http://localhost:3001'
     }
   }
-})
+}))
