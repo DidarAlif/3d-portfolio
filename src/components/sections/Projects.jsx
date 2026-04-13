@@ -30,6 +30,7 @@ const STATIC_PROJECTS = [
     {
         title: '3D Portfolio Website',
         description: 'Award-worthy immersive portfolio built with Three.js, React Three Fiber, and cinematic lighting with day/night modes.',
+        tech: ['React', 'Three.js', 'GSAP', 'Framer Motion'],
         image: null,
         initials: '3D',
         color: '#f59e0b',
