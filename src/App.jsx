@@ -16,7 +16,6 @@ import Contact from './components/sections/Contact'
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [isDayMode, setIsDayMode] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const lenisRef = useRef(null)
 
@@ -54,16 +53,6 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Theme toggle
-  const toggleTheme = useCallback(() => {
-    setIsDayMode(prev => !prev)
-  }, [])
-
-  // Apply day-mode class to body
-  useEffect(() => {
-    document.body.classList.toggle('day-mode', isDayMode)
-  }, [isDayMode])
-
   // Scroll to section
   const scrollToSection = useCallback((id) => {
     const el = document.getElementById(id)
@@ -84,7 +73,7 @@ function App() {
 
       {/* 3D Background Scene */}
       <div className="canvas-container">
-        <Scene isDayMode={isDayMode} scrollProgress={scrollProgress} onNavigate={scrollToSection} />
+        <Scene isDayMode={false} scrollProgress={scrollProgress} onNavigate={scrollToSection} />
       </div>
 
       {/* Content Overlay */}
@@ -95,8 +84,7 @@ function App() {
         transition={{ duration: 1, delay: 0.3 }}
       >
         <Navbar
-          isDayMode={isDayMode}
-          toggleTheme={toggleTheme}
+          isDayMode={false}
           scrollToSection={scrollToSection}
         />
 

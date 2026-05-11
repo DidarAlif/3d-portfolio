@@ -17,10 +17,8 @@ import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import SolarSystem from './SolarSystem'
-import OceanScene from './OceanScene'
-import OceanCameraController from './OceanCameraController'
 
-export default function Scene({ isDayMode, scrollProgress, onNavigate }) {
+export default function Scene({ scrollProgress, onNavigate }) {
     return (
         <Canvas
             camera={{ position: [0, 3, 15], fov: 55, near: 0.1, far: 300 }}
@@ -42,25 +40,11 @@ export default function Scene({ isDayMode, scrollProgress, onNavigate }) {
             }}
         >
             <Suspense fallback={null}>
-                {/* ---- Night Mode: Solar System ---- */}
-                {!isDayMode && (
-                    <SolarSystem
-                        isDayMode={isDayMode}
-                        scrollProgress={scrollProgress}
-                        onNavigate={onNavigate}
-                    />
-                )}
-
-                {/* ---- Day Mode: Ocean Sunrise ---- */}
-                {isDayMode && (
-                    <>
-                        <OceanScene isDayMode={isDayMode} scrollProgress={scrollProgress} />
-                        <OceanCameraController
-                            scrollProgress={scrollProgress}
-                            isDayMode={isDayMode}
-                        />
-                    </>
-                )}
+                {/* ---- Solar System ---- */}
+                <SolarSystem
+                    scrollProgress={scrollProgress}
+                    onNavigate={onNavigate}
+                />
 
                 {/* ---- Post-Processing: Bloom for glows ---- */}
                 <EffectComposer>
