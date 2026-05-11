@@ -10,31 +10,61 @@ import { motion, useInView } from 'framer-motion'
 
 const STATIC_PROJECTS = [
     {
-        title: 'VAPT Platform',
-        description: 'Full-featured Vulnerability Assessment & Penetration Testing platform with automated scanning, report generation, and real-time dashboards.',
-        tech: ['React', 'Node.js', 'Python', 'Nuclei', 'Railway'],
+        title: 'ReconScience',
+        description: 'Full-stack automated VAPT platform with Next.js frontend and FastAPI backend. Integrates Nuclei scanner with 4 scan modes, real-time SSE streaming, JWT auth, and OWASP Top 10 risk scoring.',
+        tech: ['Next.js', 'FastAPI', 'PostgreSQL', 'Nuclei', 'Railway'],
         image: null,
-        initials: 'VP',
+        initials: 'RS',
         color: '#00d4ff',
-        link: '#',
+        link: 'https://github.com/DidarAlif/ReconScience',
+        badge: '🟢 Live Demo',
     },
     {
-        title: 'Secure Network Architecture',
-        description: 'Enterprise network infrastructure design with VLAN segmentation, firewall policies, and intrusion detection systems.',
-        tech: ['Cisco IOS', 'Wireshark', 'pfSense', 'Suricata'],
+        title: 'OWASP Multi-Tenant SaaS VAPT',
+        description: 'Full-scope authenticated and unauthenticated VAPT on multi-tenant SaaS app (Vue.js, Ruby on Rails, Auth0). Identified 22 security findings: 2 Critical, 7 High, 7 Medium.',
+        tech: ['OWASP WSTG 4.2', 'MITRE CWE', 'CVSS v3.1', 'Nuclei', 'Katana'],
         image: null,
-        initials: 'SNA',
+        initials: 'OV',
+        color: '#ef4444',
+        link: 'https://github.com/DidarAlif/OWASP-VAPT-Report',
+        badge: '📋 Report',
+    },
+    {
+        title: 'VAPT Security Audit & Testing',
+        description: 'Comprehensive vulnerability assessment following OWASP and NIST methodologies. Identified critical security issues including insecure auth, broken access control, and server misconfigurations.',
+        tech: ['OWASP', 'NIST', 'Burp Suite', 'Nmap'],
+        image: null,
+        initials: 'VA',
+        color: '#7c3aed',
+        link: 'https://github.com/DidarAlif/VAPT-Project',
+        badge: '📋 Report',
+    },
+    {
+        title: 'Elite Depot — E-Commerce',
+        description: 'Secure PHP-MySQL e-commerce system with input validation, prepared statements for SQL injection prevention, admin dashboard, inventory management, and order processing.',
+        tech: ['PHP', 'MySQL', 'HTML/CSS', 'JavaScript'],
+        image: null,
+        initials: 'ED',
         color: '#10b981',
-        link: '#',
+        link: 'https://github.com/DidarAlif/Elite-Depot',
     },
     {
-        title: '3D Portfolio Website',
-        description: 'Award-worthy immersive portfolio built with Three.js, React Three Fiber, and cinematic lighting with day/night modes.',
-        tech: ['React', 'Three.js', 'GSAP', 'Framer Motion'],
+        title: 'Study Assist',
+        description: 'C# desktop application with Windows Forms for educational center automation — staff management, attendance tracking, payroll processing, and real-time analytics dashboards.',
+        tech: ['C#', 'Windows Forms', '.NET', 'SQL Server'],
         image: null,
-        initials: '3D',
+        initials: 'SA',
         color: '#f59e0b',
-        link: '#',
+        link: 'https://github.com/DidarAlif/Study-Assist',
+    },
+    {
+        title: 'Smart Course Automation',
+        description: 'Modular Java OOP system demonstrating design patterns, core OOP principles (abstraction, inheritance, interfaces), and persistent file I/O logging for audit trails.',
+        tech: ['Java', 'OOP', 'File I/O', 'Design Patterns'],
+        image: null,
+        initials: 'SC',
+        color: '#ec4899',
+        link: 'https://github.com/DidarAlif/Course-Management',
     },
 ]
 
@@ -138,6 +168,8 @@ function ProjectCard({ project, index }) {
                     <div className="overlay">
                         <motion.a
                             href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.1 }}
                             className="btn-primary"
                             style={{
@@ -159,6 +191,26 @@ function ProjectCard({ project, index }) {
                         height: '3px',
                         background: project.color,
                     }} />
+
+                    {/* Badge */}
+                    {project.badge && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            padding: '0.25rem 0.7rem',
+                            borderRadius: '20px',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            background: 'rgba(16, 185, 129, 0.15)',
+                            color: '#10b981',
+                            border: '1px solid rgba(16, 185, 129, 0.3)',
+                            backdropFilter: 'blur(8px)',
+                        }}>
+                            {project.badge}
+                        </div>
+                    )}
                 </div>
 
                 {/* Project Info */}
@@ -221,17 +273,23 @@ export default function Projects() {
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
+                    // Titles already in static projects (case-insensitive match)
+                    const staticTitles = new Set(STATIC_PROJECTS.map(p => p.title.toLowerCase()))
+                    const staticRepoNames = new Set([
+                        'reconscience', 'owasp-vapt-report', 'vapt-project',
+                        'elite-depot', 'study-assist', 'course-management',
+                        '3d-portfolio',
+                    ])
+
                     const fetchedProjects = data
                         .filter(repo => {
                             const name = repo.name.toLowerCase()
-                            return !name.includes('mess') && 
-                                   !name.includes('deep-axis') && 
-                                   name !== 'vapt-platform' && 
-                                   repo.name !== '3d-portfolio' &&
+                            return !staticRepoNames.has(name) &&
+                                   !name.includes('mess') && 
+                                   !name.includes('deep-axis') &&
                                    !repo.fork
                         })
                         .map(repo => {
-                            // Generate initials (up to 3 chars)
                             const initials = repo.name
                                 .replace(/[^a-zA-Z0-9-]/g, '')
                                 .split('-')
@@ -240,7 +298,6 @@ export default function Projects() {
                                 .substring(0, 3)
                                 .toUpperCase() || 'GH'
 
-                            // Consistent color by repo ID
                             const colors = ['#00d4ff', '#7c3aed', '#10b981', '#f59e0b', '#ec4899', '#3b82f6', '#14b8a6', '#ef4444']
                             const color = colors[Math.abs(repo.id) % colors.length]
 
@@ -273,9 +330,9 @@ export default function Projects() {
                 transition={{ duration: 0.7 }}
             >
                 <div className="accent-line" />
-                <h2 className="section-title">Projects</h2>
+                <h2 className="section-title">My <span style={{ color: 'var(--color-accent-cyan)' }}>Projects</span></h2>
                 <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>
-                    A curated selection of work spanning security, development, and design.
+                    A curated selection of work spanning security research, VAPT, and development.
                 </p>
             </motion.div>
 

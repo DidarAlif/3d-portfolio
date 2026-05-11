@@ -10,37 +10,51 @@ import { motion, useInView } from 'framer-motion'
 
 const ACHIEVEMENTS = [
     {
-        year: '2024',
-        title: "Dean's List — 3 Consecutive Semesters",
-        description: 'Recognized for maintaining exceptional academic performance in the Computer Science & Engineering program.',
-        icon: '🎓',
+        year: '2025',
+        title: 'Japan METI Government Internship',
+        description: 'Selected for the prestigious AI & Tech Talent internship program by METI Government of Japan at Estoma Inc., Tokyo — working with Ruby on Rails, Vue.js, and Docker.',
+        icon: '🇯🇵',
         color: '#f59e0b',
     },
     {
+        year: '2025',
+        title: 'Magna Cum Laude — Academic Honor',
+        description: 'Graduated with Honors from AIUB with CGPA 3.81/4.00, earning the Magna Cum Laude distinction for exceptional academic performance.',
+        icon: '🎓',
+        color: '#7c3aed',
+    },
+    {
+        year: '2025',
+        title: 'CCNA Certification — Cisco',
+        description: 'Earned the Cisco CCNA Course Completion Certificate from Cisco Networking Academy, validating enterprise networking and security expertise.',
+        icon: '🌐',
+        color: '#3b82f6',
+    },
+    {
         year: '2024',
-        title: 'Cisco Network Academy — Triple Certified',
-        description: 'Earned three Cisco certifications: Networking Basics, IT Essentials, and Network Support & Security.',
+        title: "Dean's Honorable Mention — 3× Consecutive",
+        description: 'Recognized three consecutive times for maintaining outstanding academic performance in the Computer Science & Engineering program at AIUB.',
         icon: '🏅',
         color: '#00d4ff',
     },
     {
         year: '2024',
-        title: 'Cybersecurity Training Completion',
-        description: 'Completed intensive cybersecurity training at Senselearner Technologies with focus on real-world penetration testing.',
-        icon: '🛡️',
-        color: '#7c3aed',
-    },
-    {
-        year: '2024',
-        title: 'VAPT Platform — Production Deployment',
-        description: 'Built and deployed a fully functional Vulnerability Assessment & Penetration Testing platform used in live environments.',
+        title: 'ReconScience — Live Production Deployment',
+        description: 'Built and deployed a full-stack automated VAPT platform (Next.js + FastAPI + Nuclei) on Railway with real-time scan streaming and OWASP Top 10 risk scoring.',
         icon: '🚀',
         color: '#10b981',
     },
     {
+        year: '2024',
+        title: '22 Security Findings in Multi-Tenant SaaS',
+        description: 'Conducted full-scope VAPT on a multi-tenant SaaS platform, identifying 22 security findings including 2 Critical and 7 High severity vulnerabilities.',
+        icon: '🛡️',
+        color: '#ef4444',
+    },
+    {
         year: '2023',
-        title: 'First Open Source Contribution',
-        description: 'Contributed to open-source security tools and started building public-facing projects on GitHub.',
+        title: 'Academic Scholarship Recipient',
+        description: 'Awarded a merit-based scholarship by AIUB for consistently high academic performance throughout the undergraduate program.',
         icon: '⭐',
         color: '#f59e0b',
     },
@@ -212,7 +226,7 @@ export default function Achievements() {
                 transition={{ duration: 0.7 }}
             >
                 <div className="accent-line" />
-                <h2 className="section-title">Achievements</h2>
+                <h2 className="section-title">Key <span style={{ color: 'var(--color-accent-cyan)' }}>Achievements</span></h2>
                 <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>
                     Milestones that mark my journey in tech and security.
                 </p>

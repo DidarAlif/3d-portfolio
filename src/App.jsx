@@ -8,6 +8,7 @@ import Loader from './components/ui/Loader'
 import Hero from './components/sections/Hero'
 import About from './components/sections/About'
 import Certifications from './components/sections/Certifications'
+import Experience from './components/sections/Experience'
 import Projects from './components/sections/Projects'
 import Skills from './components/sections/Skills'
 import Achievements from './components/sections/Achievements'
@@ -22,9 +23,12 @@ function App() {
   // Smooth scroll via Lenis
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.6,
+      easing: (t) => 1 - Math.pow(1 - t, 3), // cubic ease-out — gentler deceleration
       smooth: true,
+      smoothWheel: true,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
     })
     lenisRef.current = lenis
 
@@ -99,6 +103,7 @@ function App() {
         <main>
           <Hero scrollToSection={scrollToSection} />
           <About />
+          <Experience />
           <Certifications />
           <Projects />
           <Skills />
@@ -109,7 +114,7 @@ function App() {
         {/* Footer */}
         <footer className="text-center py-8 border-t border-white/5">
           <p className="text-sm" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
-            © 2026 Didar. Crafted with passion & code.
+            © 2025 Md Didarul Alam Alif. Crafted with passion & code.
           </p>
         </footer>
       </motion.div>

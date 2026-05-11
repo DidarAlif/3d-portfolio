@@ -78,7 +78,7 @@ export default function Contact() {
                 transition={{ duration: 0.7 }}
             >
                 <div className="accent-line" />
-                <h2 className="section-title">Get In Touch</h2>
+                <h2 className="section-title">Get In <span style={{ color: 'var(--color-accent-cyan)' }}>Touch</span></h2>
                 <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>
                     Have a project in mind or want to collaborate? Let's talk.
                 </p>
@@ -126,7 +126,9 @@ export default function Contact() {
                                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.2rem' }}>
                                         EMAIL
                                     </p>
-                                    <p style={{ fontSize: '0.9rem' }}>didar@example.com</p>
+                                    <a href="mailto:didarulalamalif@gmail.com" style={{ fontSize: '0.9rem', color: 'var(--color-accent-cyan)', textDecoration: 'none' }}>
+                                        didarulalamalif@gmail.com
+                                    </a>
                                 </div>
                             </div>
 
@@ -143,13 +145,38 @@ export default function Contact() {
                                     fontSize: '1.2rem',
                                     flexShrink: 0,
                                 }}>
+                                    📱
+                                </div>
+                                <div>
+                                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.2rem' }}>
+                                        PHONE
+                                    </p>
+                                    <a href="tel:+8801976272523" style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)', textDecoration: 'none' }}>
+                                        +880 1976-272523
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                <div style={{
+                                    width: '44px',
+                                    height: '44px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(245, 158, 11, 0.1)',
+                                    border: '1px solid rgba(245, 158, 11, 0.2)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.2rem',
+                                    flexShrink: 0,
+                                }}>
                                     📍
                                 </div>
                                 <div>
                                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.2rem' }}>
                                         LOCATION
                                     </p>
-                                    <p style={{ fontSize: '0.9rem' }}>Bangladesh</p>
+                                    <p style={{ fontSize: '0.9rem' }}>Dhaka, Bangladesh</p>
                                 </div>
                             </div>
 
@@ -176,6 +203,60 @@ export default function Contact() {
                                         Available for hire
                                     </p>
                                 </div>
+                            </div>
+
+                            {/* Social Links */}
+                            <div style={{
+                                display: 'flex',
+                                gap: '0.75rem',
+                                marginTop: '0.5rem',
+                                paddingTop: '1rem',
+                                borderTop: '1px solid var(--color-border)',
+                            }}>
+                                <a
+                                    href="https://github.com/DidarAlif"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    data-hover
+                                    style={{
+                                        padding: '0.5rem 1rem',
+                                        borderRadius: '10px',
+                                        border: '1px solid var(--color-border)',
+                                        background: 'var(--color-bg-glass)',
+                                        color: 'var(--color-text-secondary)',
+                                        fontSize: '0.82rem',
+                                        fontFamily: 'var(--font-mono)',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '0.4rem',
+                                    }}
+                                >
+                                    GitHub ↗
+                                </a>
+                                <a
+                                    href="https://linkedin.com/in/didarul-alam-alif"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    data-hover
+                                    style={{
+                                        padding: '0.5rem 1rem',
+                                        borderRadius: '10px',
+                                        border: '1px solid var(--color-border)',
+                                        background: 'var(--color-bg-glass)',
+                                        color: 'var(--color-text-secondary)',
+                                        fontSize: '0.82rem',
+                                        fontFamily: 'var(--font-mono)',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '0.4rem',
+                                    }}
+                                >
+                                    LinkedIn ↗
+                                </a>
                             </div>
                         </div>
                     </div>

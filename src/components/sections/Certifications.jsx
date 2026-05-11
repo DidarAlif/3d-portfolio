@@ -10,18 +10,68 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 
 const CERTIFICATIONS = [
     {
+        title: 'Internship in Japan for AI and Tech Talent',
+        issuer: 'METI Govt. Japan',
+        image: null,
+        date: 'December 2025',
+        category: 'certification',
+        icon: '🇯🇵',
+    },
+    {
+        title: 'CCNA (Course Completion Certificate)',
+        issuer: 'Cisco Networking Academy',
+        image: null,
+        date: 'October 2025',
+        category: 'certification',
+        icon: '🌐',
+    },
+    {
+        title: 'Practical Ethical Hacking',
+        issuer: 'Udemy',
+        image: null,
+        date: 'September 2025',
+        category: 'certification',
+        icon: '🔓',
+    },
+    {
+        title: 'AI-Driven Cybersecurity',
+        issuer: 'Udemy',
+        image: null,
+        date: 'September 2025',
+        category: 'certification',
+        icon: '🤖',
+    },
+    {
+        title: 'Cyber Security Internship',
+        issuer: 'Senselearner Technologies',
+        image: './assets/Senselearner.png',
+        date: 'November 2023',
+        category: 'certification',
+        icon: '🛡️',
+    },
+    {
+        title: 'Cyber Security Internship',
+        issuer: 'University of Dhaka (IIT)',
+        image: null,
+        date: 'October 2023',
+        category: 'certification',
+        icon: '🏛️',
+    },
+    {
+        title: 'Network Support & Security',
+        issuer: 'Cisco Networking Academy',
+        image: './assets/Network Support and Security.png',
+        date: 'October 2023',
+        category: 'certification',
+        icon: '🔒',
+    },
+    {
         title: 'Networking Basics',
         issuer: 'Cisco Networking Academy',
         image: './assets/Networking Basics.png',
-        date: '2024',
+        date: 'October 2023',
         category: 'certification',
-    },
-    {
-        title: 'Network Support and Security',
-        issuer: 'Cisco Networking Academy',
-        image: './assets/Network Support and Security.png',
-        date: '2024',
-        category: 'certification',
+        icon: '📡',
     },
     {
         title: 'IT Essentials',
@@ -29,34 +79,28 @@ const CERTIFICATIONS = [
         image: './assets/IT Essentials.png',
         date: '2024',
         category: 'certification',
-    },
-    {
-        title: 'Cybersecurity Training',
-        issuer: 'Senselearner Technologies',
-        image: './assets/Senselearner.png',
-        date: '2024',
-        category: 'certification',
+        icon: '💻',
     },
 ]
 
 const AWARDS = [
     {
         title: "Dean's Award for Academic Excellence",
-        issuer: 'University',
+        issuer: 'AIUB',
         image: './assets/Dean award-1.jpg',
         date: '2023',
         category: 'award',
     },
     {
         title: "Dean's Award — Outstanding Performance",
-        issuer: 'University',
+        issuer: 'AIUB',
         image: './assets/Dean Award-2.jpg',
         date: '2024',
         category: 'award',
     },
     {
         title: "Dean's Award — Research Contribution",
-        issuer: 'University',
+        issuer: 'AIUB',
         image: './assets/Dean Award-3.jpg',
         date: '2024',
         category: 'award',
@@ -69,7 +113,6 @@ function CertCard({ item, index, onSelectImage }) {
     const [isHovered, setIsHovered] = useState(false)
     const cardRef = useRef(null)
 
-    // 3D tilt on hover
     const handleMouseMove = (e) => {
         if (!cardRef.current) return
         const rect = cardRef.current.getBoundingClientRect()
@@ -86,6 +129,7 @@ function CertCard({ item, index, onSelectImage }) {
     }
 
     const isCert = item.category === 'certification'
+    const hasImage = !!item.image
 
     return (
         <motion.div
@@ -93,7 +137,7 @@ function CertCard({ item, index, onSelectImage }) {
             initial={{ y: 50, opacity: 0, rotateY: -10 }}
             animate={isInView ? { y: 0, opacity: 1, rotateY: 0 } : {}}
             transition={{ duration: 0.7, delay: index * 0.1 }}
-            onClick={() => onSelectImage(item.image)}
+            onClick={() => hasImage && onSelectImage(item.image)}
         >
             <div
                 ref={cardRef}
@@ -105,47 +149,80 @@ function CertCard({ item, index, onSelectImage }) {
                 style={{
                     overflow: 'hidden',
                     transition: 'transform 0.15s ease, border-color 0.4s ease, box-shadow 0.4s ease',
-                    cursor: 'pointer', // changed for clickability
+                    cursor: hasImage ? 'pointer' : 'default',
                 }}
             >
-                {/* Image */}
-                <div style={{
-                    position: 'relative',
-                    height: '180px',
-                    overflow: 'hidden',
-                }}>
-                    <img
-                        src={item.image}
-                        alt={item.title}
-                        loading="lazy"
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            transition: 'transform 0.5s ease',
-                            transform: isHovered ? 'scale(1.08)' : 'scale(1)',
-                        }}
-                    />
-                    {/* Category badge */}
+                {/* Image or Icon Header */}
+                {hasImage ? (
                     <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        right: '12px',
-                        padding: '0.3rem 0.75rem',
-                        borderRadius: '20px',
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.7rem',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.08em',
-                        background: isCert ? 'rgba(0, 212, 255, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                        color: isCert ? 'var(--color-accent-cyan)' : 'var(--color-accent-gold)',
-                        border: `1px solid ${isCert ? 'rgba(0, 212, 255, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
-                        backdropFilter: 'blur(8px)',
+                        position: 'relative',
+                        height: '180px',
+                        overflow: 'hidden',
                     }}>
-                        {isCert ? '📜 Cert' : '🏆 Award'}
+                        <img
+                            src={item.image}
+                            alt={item.title}
+                            loading="lazy"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                transition: 'transform 0.5s ease',
+                                transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+                            }}
+                        />
+                        {/* Category badge */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            padding: '0.3rem 0.75rem',
+                            borderRadius: '20px',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.08em',
+                            background: isCert ? 'rgba(0, 212, 255, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                            color: isCert ? 'var(--color-accent-cyan)' : 'var(--color-accent-gold)',
+                            border: `1px solid ${isCert ? 'rgba(0, 212, 255, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                            backdropFilter: 'blur(8px)',
+                        }}>
+                            {isCert ? '📜 Cert' : '🏆 Award'}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div style={{
+                        height: '120px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: isCert
+                            ? 'linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(124, 58, 237, 0.08) 100%)'
+                            : 'linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(239, 68, 68, 0.08) 100%)',
+                        position: 'relative',
+                    }}>
+                        <span style={{ fontSize: '3rem' }}>{item.icon || (isCert ? '📜' : '🏆')}</span>
+                        {/* Category badge */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            padding: '0.3rem 0.75rem',
+                            borderRadius: '20px',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.08em',
+                            background: isCert ? 'rgba(0, 212, 255, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                            color: isCert ? 'var(--color-accent-cyan)' : 'var(--color-accent-gold)',
+                            border: `1px solid ${isCert ? 'rgba(0, 212, 255, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                        }}>
+                            {isCert ? '📜 Cert' : '🏆 Award'}
+                        </div>
+                    </div>
+                )}
 
                 {/* Info */}
                 <div style={{ padding: '1.25rem' }}>
@@ -191,7 +268,7 @@ export default function Certifications() {
                 transition={{ duration: 0.7 }}
             >
                 <div className="accent-line" />
-                <h2 className="section-title">Certifications & Awards</h2>
+                <h2 className="section-title">Certifications & <span style={{ color: 'var(--color-accent-gold)' }}>Awards</span></h2>
                 <p className="section-subtitle">
                     Recognized expertise validated by industry leaders.
                 </p>
@@ -243,7 +320,7 @@ export default function Certifications() {
             >
                 <AnimatePresence mode="popLayout">
                     {filtered.map((item, i) => (
-                        <CertCard key={item.title} item={item} index={i} onSelectImage={setSelectedImage} />
+                        <CertCard key={`${item.title}-${item.issuer}`} item={item} index={i} onSelectImage={setSelectedImage} />
                     ))}
                 </AnimatePresence>
             </motion.div>
@@ -283,7 +360,7 @@ export default function Certifications() {
                                 borderRadius: '12px',
                                 boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
                             }}
-                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+                            onClick={(e) => e.stopPropagation()}
                         />
                         <button
                             onClick={() => setSelectedImage(null)}

@@ -44,16 +44,15 @@ export default function OceanCameraController({ scrollProgress, isDayMode }) {
         const parallaxX = mouseSmooth.current.x * 2.0
         const parallaxY = mouseSmooth.current.y * -1.0
 
-        // Scroll offset
-        const scrollY = (scrollProgress || 0) * -3
+        // No scroll offset — camera stays fixed while content scrolls over it
 
         // Ambient breathing sway
         const swayX = Math.sin(t * 0.15) * 0.3
         const swayY = Math.cos(t * 0.1) * 0.15
 
-        // Target camera position
+        // Target camera position (no scroll movement)
         const targetX = defaultPos.current.x + parallaxX + swayX
-        const targetY = defaultPos.current.y + scrollY + parallaxY + swayY
+        const targetY = defaultPos.current.y + parallaxY + swayY
         const targetZ = defaultPos.current.z
 
         // Smooth camera movement
@@ -63,7 +62,7 @@ export default function OceanCameraController({ scrollProgress, isDayMode }) {
 
         // Look target with subtle parallax
         const lookX = lookTarget.current.x + parallaxX * 0.3
-        const lookY = lookTarget.current.y + parallaxY * 0.3 + scrollY * 0.2
+        const lookY = lookTarget.current.y + parallaxY * 0.3
         const lookZ = lookTarget.current.z
 
         camera.lookAt(lookX, lookY, lookZ)

@@ -117,12 +117,12 @@ export default function CameraController({
         const parallaxX = mouseSmooth.current.x * 3.5
         const parallaxY = mouseSmooth.current.y * -2.0
 
-        // Scroll offset
-        const scrollY = scrollProgress * -5
+        // Camera stays at fixed height — no scroll offset
+        // This prevents the "zoom" feel when scrolling the page
 
-        // Blend: default position + parallax + scroll
+        // Blend: default position + parallax (no scroll movement)
         const targetX = defaultPos.current.x + parallaxX
-        const targetY = 12 + scrollY + parallaxY
+        const targetY = defaultPos.current.y + parallaxY
         const targetZ = defaultPos.current.z
 
         // Smoothly move camera toward target
@@ -135,18 +135,14 @@ export default function CameraController({
         <OrbitControls
             ref={controlsRef}
             makeDefault
-            enablePan={true}
-            enableZoom={true}
+            enablePan={false}
+            enableZoom={false}
             enableRotate={true}
             enableDamping={true}
             dampingFactor={0.03}
-            minDistance={5}
-            maxDistance={60}
             maxPolarAngle={Math.PI * 0.85}
             minPolarAngle={Math.PI * 0.15}
             rotateSpeed={0.3}
-            zoomSpeed={0.5}
-            panSpeed={0.3}
         />
     )
 }

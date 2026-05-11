@@ -1,44 +1,36 @@
 /**
- * Navbar.jsx — Premium Glassmorphic Navigation
- * 
- * Features:
- * - Auto-hide on scroll down, show on scroll up
- * - Glassmorphic background with blur
- * - Active section highlighting
- * - Day/Night theme toggle
- * - Mobile hamburger menu
- * - Smooth section scroll navigation
+ * Navbar.jsx — Dynamic Island Navigation
+ *
+ * Apple-inspired floating pill navbar:
+ * - Centered, compact, always visible
+ * - Glassmorphic capsule with glow effect
+ * - Active section dot indicator
+ * - Expands slightly on hover
+ * - Mobile: hamburger opens full overlay
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const NAV_ITEMS = [
-    { id: 'hero', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'certifications', label: 'Certifications' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'achievements', label: 'Achievements' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'hero', label: 'Home', icon: '⌂' },
+    { id: 'about', label: 'About', icon: '◉' },
+    { id: 'experience', label: 'Experience', icon: '◆' },
+    { id: 'certifications', label: 'Certs', icon: '◈' },
+    { id: 'projects', label: 'Projects', icon: '◧' },
+    { id: 'skills', label: 'Skills', icon: '⬡' },
+    { id: 'achievements', label: 'Awards', icon: '★' },
+    { id: 'contact', label: 'Contact', icon: '✉' },
 ]
 
 export default function Navbar({ isDayMode, toggleTheme, scrollToSection }) {
-    const [isScrolled, setIsScrolled] = useState(false)
-    const [isHidden, setIsHidden] = useState(false)
     const [activeSection, setActiveSection] = useState('hero')
     const [isMobileOpen, setIsMobileOpen] = useState(false)
-    const lastScrollY = useRef(0)
+    const [isHovered, setIsHovered] = useState(false)
 
-    // Scroll behavior: hide on down, show on up
+    // Detect active section
     useEffect(() => {
         const handleScroll = () => {
-            const y = window.scrollY
-            setIsScrolled(y > 50)
-            setIsHidden(y > lastScrollY.current && y > 200)
-            lastScrollY.current = y
-
-            // Detect active section
             for (const item of [...NAV_ITEMS].reverse()) {
                 const el = document.getElementById(item.id)
                 if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) {
@@ -59,127 +51,193 @@ export default function Navbar({ isDayMode, toggleTheme, scrollToSection }) {
 
     return (
         <>
-            <nav
-                className={`navbar ${isScrolled ? 'scrolled' : ''} ${isHidden ? 'hidden' : ''}`}
+            {/* ---- Dynamic Island Navbar ---- */}
+            <motion.nav
+                className="dynamic-island"
+                initial={{ y: -80, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 2.5, duration: 0.8, type: 'spring', damping: 20 }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 style={{
+                    position: 'fixed',
+                    top: '14px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 1000,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
+                    gap: '0.25rem',
+                    padding: '0.4rem 0.6rem',
+                    borderRadius: '50px',
+                    background: isDayMode
+                        ? 'rgba(245, 240, 235, 0.75)'
+                        : 'rgba(10, 10, 15, 0.65)',
+                    backdropFilter: 'blur(24px)',
+                    WebkitBackdropFilter: 'blur(24px)',
+                    border: `1px solid ${isDayMode
+                        ? 'rgba(0, 0, 0, 0.08)'
+                        : 'rgba(255, 255, 255, 0.08)'}`,
+                    boxShadow: isDayMode
+                        ? '0 4px 30px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)'
+                        : '0 4px 30px rgba(0,0,0,0.3), 0 0 60px rgba(0, 212, 255, 0.03)',
+                    transition: 'background 0.4s, border-color 0.4s, box-shadow 0.4s',
+                    pointerEvents: 'auto',
                 }}
             >
-                {/* Logo */}
-                <motion.div
-                    className="cursor-pointer"
-                    onClick={() => handleNavClick('hero')}
-                    whileHover={{ scale: 1.05 }}
-                    style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontWeight: 700,
-                        fontSize: '1.3rem',
-                        letterSpacing: '-0.02em',
-                        color: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)',
-                    }}
-                >
-                    <span style={{ color: 'var(--color-accent-cyan)' }}>&lt;</span>
-                    Didar
-                    <span style={{ color: 'var(--color-accent-cyan)' }}> /&gt;</span>
-                </motion.div>
-
                 {/* Desktop Nav Links */}
-                <div className="hidden md:flex items-center gap-1" style={{ fontFamily: 'var(--font-body)' }}>
-                    {NAV_ITEMS.slice(1).map((item) => (
-                        <motion.button
-                            key={item.id}
-                            onClick={() => handleNavClick(item.id)}
-                            whileHover={{ y: -2 }}
-                            style={{
-                                padding: '0.5rem 1rem',
-                                background: 'none',
-                                border: 'none',
-                                cursor: 'none',
-                                fontFamily: 'var(--font-body)',
-                                fontSize: '0.85rem',
-                                fontWeight: activeSection === item.id ? 600 : 400,
-                                color: activeSection === item.id
-                                    ? 'var(--color-accent-cyan)'
-                                    : isDayMode ? 'var(--day-text-secondary)' : 'var(--color-text-secondary)',
-                                borderRadius: '8px',
-                                position: 'relative',
-                                letterSpacing: '0.01em',
-                                transition: 'color 0.3s ease',
-                            }}
-                        >
-                            {item.label}
-                            {activeSection === item.id && (
-                                <motion.div
-                                    layoutId="nav-indicator"
-                                    style={{
-                                        position: 'absolute',
-                                        bottom: '2px',
-                                        left: '50%',
-                                        transform: 'translateX(-50%)',
-                                        width: '20px',
-                                        height: '2px',
-                                        background: 'var(--color-accent-cyan)',
-                                        borderRadius: '2px',
-                                    }}
-                                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                                />
-                            )}
-                        </motion.button>
-                    ))}
+                <div className="hidden md:flex items-center gap-0.5">
+                    {NAV_ITEMS.map((item) => {
+                        const isActive = activeSection === item.id
+                        return (
+                            <motion.button
+                                key={item.id}
+                                onClick={() => handleNavClick(item.id)}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                data-hover
+                                style={{
+                                    padding: '0.4rem 0.7rem',
+                                    background: isActive
+                                        ? 'rgba(0, 212, 255, 0.12)'
+                                        : 'transparent',
+                                    border: 'none',
+                                    borderRadius: '20px',
+                                    cursor: 'none',
+                                    fontFamily: 'var(--font-body)',
+                                    fontSize: '0.78rem',
+                                    fontWeight: isActive ? 600 : 400,
+                                    color: isActive
+                                        ? 'var(--color-accent-cyan)'
+                                        : isDayMode ? 'var(--day-text-secondary)' : 'var(--color-text-secondary)',
+                                    position: 'relative',
+                                    letterSpacing: '0.01em',
+                                    transition: 'all 0.3s ease',
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
+                                {item.label}
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="island-dot"
+                                        style={{
+                                            position: 'absolute',
+                                            bottom: '2px',
+                                            left: '50%',
+                                            transform: 'translateX(-50%)',
+                                            width: '4px',
+                                            height: '4px',
+                                            borderRadius: '50%',
+                                            background: 'var(--color-accent-cyan)',
+                                            boxShadow: '0 0 8px var(--color-accent-cyan)',
+                                        }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                                    />
+                                )}
+                            </motion.button>
+                        )
+                    })}
 
-                    {/* Theme Toggle (Hidden per user request, defaulting to Night mode)
-                    <button
-                        className="theme-toggle ml-2"
+                    {/* Divider */}
+                    <div style={{
+                        width: '1px',
+                        height: '20px',
+                        background: isDayMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+                        margin: '0 0.25rem',
+                    }} />
+
+                    {/* Theme toggle */}
+                    <motion.button
+                        className="theme-toggle"
                         onClick={toggleTheme}
+                        whileHover={{ scale: 1.15, rotate: 15 }}
+                        whileTap={{ scale: 0.9 }}
                         aria-label="Toggle theme"
+                        style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            border: 'none',
+                            background: isDayMode
+                                ? 'rgba(217, 119, 6, 0.1)'
+                                : 'rgba(0, 212, 255, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.9rem',
+                            cursor: 'none',
+                            transition: 'background 0.3s',
+                        }}
                     >
                         {isDayMode ? '🌙' : '☀️'}
-                    </button>
-                    */}
+                    </motion.button>
                 </div>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile: compact bar */}
                 <div className="flex md:hidden items-center gap-2">
-                    {/* 
+                    {/* Active section label */}
+                    <span style={{
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        color: 'var(--color-accent-cyan)',
+                        padding: '0 0.5rem',
+                        minWidth: '60px',
+                        textAlign: 'center',
+                    }}>
+                        {NAV_ITEMS.find(i => i.id === activeSection)?.label || 'Home'}
+                    </span>
+
+                    {/* Theme toggle */}
                     <button
                         className="theme-toggle"
                         onClick={toggleTheme}
                         aria-label="Toggle theme"
-                        style={{ width: '36px', height: '36px', fontSize: '1rem' }}
+                        style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            border: 'none',
+                            background: 'transparent',
+                            fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
                     >
                         {isDayMode ? '🌙' : '☀️'}
                     </button>
-                    */}
+
+                    {/* Hamburger */}
                     <button
                         onClick={() => setIsMobileOpen(!isMobileOpen)}
                         style={{
                             background: 'none',
                             border: 'none',
                             cursor: 'pointer',
-                            padding: '0.5rem',
+                            padding: '0.35rem',
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '5px',
+                            gap: '4px',
                         }}
                         aria-label="Toggle menu"
                     >
                         <motion.span
-                            animate={isMobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-                            style={{ width: '24px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
+                            animate={isMobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                            style={{ width: '18px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
                         />
                         <motion.span
                             animate={isMobileOpen ? { opacity: 0 } : { opacity: 1 }}
-                            style={{ width: '24px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
+                            style={{ width: '18px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
                         />
                         <motion.span
-                            animate={isMobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-                            style={{ width: '24px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
+                            animate={isMobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                            style={{ width: '18px', height: '2px', background: isDayMode ? 'var(--day-text)' : 'var(--color-text-primary)', display: 'block', borderRadius: '2px' }}
                         />
                     </button>
                 </div>
-            </nav>
+            </motion.nav>
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
@@ -193,22 +251,24 @@ export default function Navbar({ isDayMode, toggleTheme, scrollToSection }) {
                             position: 'fixed',
                             inset: 0,
                             zIndex: 999,
-                            background: 'rgba(10, 10, 15, 0.95)',
-                            backdropFilter: 'blur(20px)',
+                            background: isDayMode
+                                ? 'rgba(245, 240, 235, 0.97)'
+                                : 'rgba(10, 10, 15, 0.97)',
+                            backdropFilter: 'blur(30px)',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: '1.5rem',
+                            gap: '1.25rem',
                         }}
                     >
                         {NAV_ITEMS.map((item, i) => (
                             <motion.button
                                 key={item.id}
-                                initial={{ x: -50, opacity: 0 }}
-                                animate={{ x: 0, opacity: 1 }}
-                                exit={{ x: 50, opacity: 0 }}
-                                transition={{ delay: i * 0.05 }}
+                                initial={{ y: 30, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -20, opacity: 0 }}
+                                transition={{ delay: i * 0.04 }}
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     handleNavClick(item.id)
@@ -218,12 +278,18 @@ export default function Navbar({ isDayMode, toggleTheme, scrollToSection }) {
                                     border: 'none',
                                     cursor: 'pointer',
                                     fontFamily: 'var(--font-heading)',
-                                    fontSize: '1.8rem',
+                                    fontSize: '1.6rem',
                                     fontWeight: activeSection === item.id ? 700 : 400,
-                                    color: activeSection === item.id ? 'var(--color-accent-cyan)' : '#e8e8ed',
+                                    color: activeSection === item.id
+                                        ? 'var(--color-accent-cyan)'
+                                        : isDayMode ? 'var(--day-text)' : '#e8e8ed',
                                     letterSpacing: '-0.01em',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem',
                                 }}
                             >
+                                <span style={{ fontSize: '1rem', opacity: 0.6 }}>{item.icon}</span>
                                 {item.label}
                             </motion.button>
                         ))}
