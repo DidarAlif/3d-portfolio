@@ -49,8 +49,8 @@ export default function Scene({ scrollProgress, onNavigate }) {
                 {/* ---- Post-Processing: Bloom for glows ---- */}
                 <EffectComposer>
                     <Bloom
-                        intensity={isDayMode ? 0.6 : 0.8}
-                        luminanceThreshold={isDayMode ? 0.6 : 0.3}
+                        intensity={0.8}
+                        luminanceThreshold={0.3}
                         luminanceSmoothing={0.9}
                         mipmapBlur
                     />
